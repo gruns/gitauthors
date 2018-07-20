@@ -1,2 +1,3 @@
-# gitauthors
-Collect and print information about the authors of a git repository.
+# GitAuthors
+
+A simple tool that prints a useful summary of a repo's authors.

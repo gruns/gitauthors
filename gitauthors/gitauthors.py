@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# GitAuthors - A simple tool that prints an author summary of a git repo.
+# GitAuthors - A simple tool that prints a useful summary of a repo's authors.
 #
 # Ansgar Grunseid
 # grunseid.com
@@ -18,8 +18,27 @@ from io import StringIO
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
-from furl import furl
+from docopt import docopt
 from dulwich import porcelain
+
+
+from __version__ import __version__ as VERSION
+
+
+__doc__ = """GitAuthors
+
+Usage:
+  gitauthors <repositoryUrl>
+  gitauthors -h | --help
+  gitauthors --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+
+Examples:
+  gitauthors https://github.com/gruns/gitauthors
+"""
 
 
 @contextmanager
@@ -75,6 +94,8 @@ def getRepositoryAuthors(path):
 
 
 def gitauthors(repoUrl):
+    lines = []
+
     with temporaryDirectory() as repo:
         with open(os.devnull, 'wb') as devnull:
             porcelain.clone(repoUrl, repo, errstream=devnull)
@@ -88,11 +109,20 @@ def gitauthors(repoUrl):
         fmt = '{0:%i}  {1:<%i}  {2:>%i} commits, last on {3}'
         fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
         for email, (name, numCommits, latestCommitDate) in authors:
-            print(fmt.format(name, email, numCommits, latestCommitDate))
+            lines.append(fmt.format(name, email, numCommits, latestCommitDate))
 
-        return authors
+    return os.linesep.join(lines)
+
+
+def main():
+    args = docopt(__doc__, version=VERSION)  # Raises SystemExit.
+    url = args.get('<repositoryUrl>')
+
+    out = gitauthors(url)
+
+    print(out)
 
 
 if __name__ == '__main__':
-    url = sys.argv[-1]
-    gitauthors(url)
+    main()
+
