@@ -11,21 +11,7 @@
 # License: MIT
 #
 
-import os
-import sys
-import shutil
-from io import StringIO
-from tempfile import mkdtemp
-from contextlib import contextmanager
-
-from docopt import docopt
-from dulwich import porcelain
-
-
-from __version__ import __version__ as VERSION
-
-
-__doc__ = """GitAuthors
+"""GitAuthors
 
 Usage:
   gitauthors <repositoryUrl>
@@ -39,6 +25,34 @@ Options:
 Examples:
   gitauthors https://github.com/gruns/gitauthors
 """
+
+import os
+import sys
+import shutil
+from tempfile import mkdtemp
+from io import BytesIO, StringIO
+from contextlib import contextmanager
+
+from docopt import docopt
+from dulwich import porcelain
+try:
+    from icecream import ic
+except ImportError:
+    ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)
+
+from __version__ import __version__ as VERSION
+
+
+# MonkeyPatch a silent fetch() into dulwich.porcelain until
+#
+#   https://github.com/dulwich/dulwich/pull/643
+#
+# is merged.
+_fetch = porcelain.fetch
+def silentFetch(*args, **kwargs):
+    kwargs['errstream'] = BytesIO()
+    return _fetch(*args, **kwargs)
+porcelain.fetch = silentFetch
 
 
 @contextmanager
@@ -125,4 +139,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
