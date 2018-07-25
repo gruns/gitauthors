@@ -120,10 +120,11 @@ def gitauthors(repoUrl):
         longestEmailLen = max(len(email) for email, _ in authors)
         longestCommitsLen = max(len(str(t[1])) for _, t in authors)
 
-        fmt = '{0:%i}  {1:<%i}  {2:>%i} commits, last on {3}'
+        fmt = '{0:%i}  {1:<%i}  {2:>%i} %%s last on {3}'
         fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
         for email, (name, numCommits, latestCommitDate) in authors:
-            lines.append(fmt.format(name, email, numCommits, latestCommitDate))
+            tmp = fmt % ('commit, ' if numCommits == 1 else 'commits,')
+            lines.append(tmp.format(name, email, numCommits, latestCommitDate))
 
     return os.linesep.join(lines)
 
