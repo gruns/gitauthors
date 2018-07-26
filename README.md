@@ -1,7 +1,8 @@
 # GitAuthors
 
-GitAuthors is simple tool that prints a useful summary of a repo's authors:
-name, email, number of commits, and last commit date.
+GitAuthors is simple tool that prints a useful summary of a repo's
+authors. Summary output includes each author's name, email address, number of
+commits, and date of last commit.
 
 Once, installed, it's available via the `gitauthors` command.
 
