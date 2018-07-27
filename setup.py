@@ -50,6 +50,7 @@ setup(
     long_description=(
         'Information and documentation can be found at '
         'https://github.com/gruns/gitauthors.'),
+    scripts=['gitauthors/gitauthors'],
     platforms=['any'],
     packages=find_packages(),
     include_package_data=True,
