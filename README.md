@@ -12,10 +12,10 @@ Once, installed, GitAuthors is available via the `gitauthors` command.
 To use, provide `gitauthors` the URL of a respository and let it go to
 work. `gitauthors` will, in turn:
 
-  1. Checkout the repository into a temporary directory.
+  1. Check out the repository into a temporary directory.
   2. Parse the repository's log history.
   3. Collate a list of the repository's authors and their commits.
-  4. Output a nice, formatted summary of the repository's authors.
+  4. Output a nicely formatted summary of the repository's authors.
 
 Like
 
