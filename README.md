@@ -1,4 +1,10 @@
-# GitAuthors
+<h1>
+  <div align="center">
+    <img src="https://raw.githubusercontent.com/gruns/gitauthors/master/logo.svg" width="300px" alt="GitAuthors">
+  </div>
+  GitAuthors
+</h1>
+
 
 GitAuthors is simple tool that prints a quick summary of a repository's authors,
 as collated by commits. Summary output includes each author's name, email,
