@@ -1,6 +1,6 @@
 <h1>
   <div align="center">
-    <img src="https://raw.githubusercontent.com/gruns/gitauthors/master/logo.svg" width="300px" alt="GitAuthors">
+    <img src="logo.svg" width="300px" alt="GitAuthors">
   </div>
   GitAuthors
 </h1>
