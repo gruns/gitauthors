@@ -21,14 +21,16 @@ work. `gitauthors` will, in turn:
   1. Check out the repository into a temporary directory.
   2. Parse the repository's log history.
   3. Collate a list of the repository's authors and their commits.
-  4. Output a nicely formatted summary of the repository's authors.
+  4. Output a nicely formatted summary of the repository's authors and their
+     commits.
+  5. Clean up and delete the temporary directory.
 
-Like
+Example:
 
 ```
 $ gitauthors https://github.com/gruns/gitauthors
-grun             grunseid@gmail.com              2 commits, last on Jul 20, 2018
-Ansgar Grunseid  gruns@users.noreply.github.com  1 commits, last on Jul 17, 2018
+Ansgar Grunseid  grunseid@gmail.com              16 commits, latest on Aug 06, 2018
+Ansgar Grunseid  gruns@users.noreply.github.com   1  commit, latest on Jul 17, 2018
 ```
 
 That's it. Simple.
