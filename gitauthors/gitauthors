@@ -14,7 +14,7 @@
 """GitAuthors
 
 Usage:
-  gitauthors <repositoryUrl>
+  gitauthors <repository-URL>
   gitauthors -h | --help
   gitauthors --version
 
@@ -134,7 +134,7 @@ def gitauthors(repoUrl):
 
 def main():
     args = docopt(__doc__, version=VERSION)  # Raises SystemExit.
-    url = args.get('<repositoryUrl>')
+    url = args.get('<repository-URL>')
 
     out = gitauthors(url)
 
