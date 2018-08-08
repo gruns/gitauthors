@@ -50,7 +50,7 @@ except ImportError:  # System import.
 #
 #   https://github.com/dulwich/dulwich/pull/643
 #
-# is merged.
+# is merged and pushed to PyPi.
 _fetch = porcelain.fetch
 def silentFetch(*args, **kwargs):
     kwargs['errstream'] = BytesIO()
