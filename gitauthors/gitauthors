@@ -31,6 +31,7 @@ import sys
 import shutil
 from tempfile import mkdtemp
 from io import BytesIO, StringIO
+from time import gmtime, strftime
 from contextlib import contextmanager
 
 from docopt import docopt
@@ -123,10 +124,10 @@ def gitauthors(repoUrl):
         longestEmailLen = max(len(email) for email, _ in authors)
         longestCommitsLen = max(len(str(t[1])) for _, t in authors)
 
-        fmt = '{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}'
+        fmt = u'{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}'
         fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
         for email, (name, numCommits, latestCommitDate) in authors:
-            tmp = fmt % (' commit,' if numCommits == 1 else 'commits,')
+            tmp = fmt % (u' commit,' if numCommits == 1 else u'commits,')
             lines.append(tmp.format(name, email, numCommits, latestCommitDate))
 
     return os.linesep.join(lines)
