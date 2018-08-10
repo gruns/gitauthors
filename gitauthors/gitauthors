@@ -68,45 +68,25 @@ def temporaryDirectory():
         shutil.rmtree(tmp, ignore_errors=True)  # Can still raise.
 
 
-class GitLogProcessor():
-    def __init__(self):
-        self._dateLine = None
-        self._authorLine = None
-        self.authors = {}  # email -> (name, numCommits, latestCommitDate).
-
-    def processCommit(self):
-        if not self._authorLine or not self._dateLine:
-            return
-
-        # Author: Some Name <email@address.com>
-        authorLine = self._authorLine.rstrip('>')
-        name, email = [s.strip() for s in authorLine.rsplit('<', 1)]
-
-        # Date:   Wed Nov 16 2011 14:09:22 -0500
-        dateOnlyNoTime = '%s %s, %s' % tuple(self._dateLine.split()[1:4])
-
-        _, numCommits, _ = self.authors.get(email, (None, 0, None))
-        numCommits += 1
-
-        self.authors[email] = (name, numCommits, dateOnlyNoTime)
-
-    def write(self, line):
-        line = line.strip()
-        if line.startswith('Author: '):
-            self._authorLine = line.split('Author: ', 1)[-1].strip()
-        elif line.startswith('Date:   '):
-            self._dateLine = line.split('Date:   ', 1)[-1].strip()
-            self.processCommit()
-
-
 def getRepositoryAuthors(path):
-    authors = {}
+    authors = {}  # email -> (name, numCommits, latestCommitDate).
 
-    log = GitLogProcessor()
-    porcelain.log(path, outstream=log, reverse=True)
+    with porcelain.open_repo_closing(path) as repo:
+        for entry in repo.get_walker():
+            commit = entry.commit
+            author = commit.author
 
-    authors = list(log.authors.items())
-    byNumCommits = sorted(authors, key=lambda author: author[1][1])[::-1]
+            utf8 = lambda s: s.decode('utf8')
+            date = utf8(strftime('%b %d, %Y', gmtime(commit.author_time)))
+            name, email = [utf8(s.strip(' <>')) for s in author.rsplit(' ', 1)]
+
+            _, numCommits, _ = authors.get(email, ('ignored', 0, 'ignored'))
+            numCommits += 1
+
+            authors[email] = (name, numCommits, date)
+
+    items = list(authors.items())
+    byNumCommits = sorted(items, key=lambda author: author[1][1])[::-1]
 
     return byNumCommits
 
