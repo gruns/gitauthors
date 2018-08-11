@@ -29,8 +29,8 @@ Examples:
 import os
 import sys
 import shutil
+from io import BytesIO
 from tempfile import mkdtemp
-from io import BytesIO, StringIO
 from time import gmtime, strftime
 from contextlib import contextmanager
 
