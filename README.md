@@ -23,7 +23,7 @@ work. `gitauthors` will, in turn:
   3. Collate a list of the repository's authors and their commits.
   4. Output a nicely formatted summary of the repository's authors and their
      commits.
-  5. Clean up and delete the temporary directory.
+  5. Clean up after itself and delete the temporary directory.
 
 Example:
 
