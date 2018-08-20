@@ -11,7 +11,7 @@
 # License: MIT
 #
 
-"""GitAuthors - Print a quick summary of a repo's authors.
+"""GitAuthors - Get a quick summary of a repo's authors.
 
 Usage:
   gitauthors <repository-URL>
