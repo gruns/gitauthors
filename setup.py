@@ -32,8 +32,12 @@ class Publish(Command):
         pass
 
     def run(self):
-        os.system('python setup.py sdist')
-        rc = os.system('twine upload dist/gitauthors-%s.tar.gz' % VERSION)
+        os.system('python setup.py sdist bdist_wheel')
+
+        sdist = 'dist/gitauthors-%s.tar.gz' % VERSION
+        wheel = 'dist/gitauthors-%s-py2.py3-none-any.whl' % VERSION
+        rc = os.system('twine upload "%s" "%s"' % (sdist, wheel))
+
         sys.exit(rc)
 
 
