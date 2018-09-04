@@ -47,18 +47,6 @@ except ImportError:  # System import.
     from gitauthors.__version__ import __version__ as VERSION
 
 
-# MonkeyPatch a silent fetch() into dulwich.porcelain until
-#
-#   https://github.com/dulwich/dulwich/pull/643
-#
-# is merged and pushed to PyPi.
-_fetch = porcelain.fetch
-def silentFetch(*args, **kwargs):
-    kwargs['errstream'] = BytesIO()
-    return _fetch(*args, **kwargs)
-porcelain.fetch = silentFetch
-
-
 @contextmanager
 def temporaryDirectory():
     tmp = mkdtemp()

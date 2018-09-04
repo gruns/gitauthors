@@ -77,6 +77,6 @@ setup(
     tests_require=['flake8'],
     install_requires=[
         'docopt>=0.6.2',
-        'dulwich>=0.19.5'],
+        'dulwich>=0.19.6'],
     cmdclass={'publish': Publish},
 )
