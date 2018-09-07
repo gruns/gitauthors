@@ -47,6 +47,12 @@ except ImportError:  # System import.
     from gitauthors.__version__ import __version__ as VERSION
 
 
+def utf8(s):
+    if hasattr(s, 'decode'):  # Python 3.
+        return s.decode('utf8')
+    return s  # Python 3.
+
+
 @contextmanager
 def temporaryDirectory():
     tmp = mkdtemp()
@@ -62,11 +68,10 @@ def getRepositoryAuthors(path):
     with porcelain.open_repo_closing(path) as repo:
         for entry in repo.get_walker():
             commit = entry.commit
-            author = commit.author
+            author = utf8(commit.author)
 
-            utf8 = lambda s: s.decode('utf8')
             date = utf8(strftime('%b %d, %Y', gmtime(commit.author_time)))
-            name, email = [utf8(s.strip(' <>')) for s in author.rsplit(' ', 1)]
+            name, email = [s.strip(' <>') for s in author.rsplit(' ', 1)]
 
             _, numCommits, _ = authors.get(email, ('ignored', 0, 'ignored'))
             numCommits += 1
