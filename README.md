@@ -1,5 +1,7 @@
 <h1 align="center">
   <img src="logo.svg" width="300px" height="200px" alt="GitAuthors">
+</h1>
+<h1>
   GitAuthors
 </h1>
 
