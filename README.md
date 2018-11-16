@@ -1,5 +1,5 @@
-<div align="center"
-  <img src="logo.svg" width="300px" height="200px" alt="GitAuthors"><br>
+<div align="center">
+  <img src="logo.svg" width="300px" height="200px" alt="GitAuthors">
 </div>
 
 # GitAuthors
