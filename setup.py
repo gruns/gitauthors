@@ -12,7 +12,6 @@
 #
 
 import os
-import re
 import sys
 from os.path import dirname, join as pjoin
 from setuptools import setup, find_packages, Command
@@ -74,9 +73,14 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
-    tests_require=['flake8'],
+    tests_require=[
+        'flake8',
+    ],
     install_requires=[
         'docopt>=0.6.2',
-        'dulwich>=0.19.6'],
-    cmdclass={'publish': Publish},
+        'dulwich>=0.19.6',
+    ],
+    cmdclass={
+        'publish': Publish,
+    },
 )
