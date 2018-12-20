@@ -104,7 +104,7 @@ def formatGitAuthors(authorsByNumCommits):
     return os.linesep.join(lines)
 
 
-def gitauthors(repoUrl):
+def collateGitAuthors(repoUrl):
     with temporaryDirectory() as repo:
         with open(os.devnull, 'wb') as devnull:
             porcelain.clone(repoUrl, repo, errstream=devnull)
@@ -118,7 +118,7 @@ def main():
     args = docopt(__doc__, version=VERSION)  # Raises SystemExit.
     url = args.get('<repository-URL>')
 
-    authorsByNumCommits = gitauthors(url)
+    authorsByNumCommits = collateGitAuthors(url)
     out = formatGitAuthors(authorsByNumCommits)
 
     print(out)

@@ -9,3 +9,6 @@
 #
 # License: MIT
 #
+
+
+from gitauthors.gitauthors import collateGitAuthors, formatGitAuthors
