@@ -62,7 +62,7 @@ def temporaryDirectory():
         shutil.rmtree(tmp, ignore_errors=True)  # Can still raise.
 
 
-def getRepositoryAuthors(path):
+def getRepositoryAuthorsByNumberOfCommits(path):
     authors = {}  # email -> (name, numCommits, latestCommitDate).
 
     with porcelain.open_repo_closing(path) as repo:
@@ -70,7 +70,7 @@ def getRepositoryAuthors(path):
             commit = entry.commit
             author = utf8(commit.author)
 
-            date = utf8(strftime('%b %d, %Y', gmtime(commit.author_time)))
+            date = gmtime(commit.author_time)
             name, email = [s.strip(' <>') for s in author.rsplit(' ', 1)]
 
             _, numCommits, _ = authors.get(email, ('ignored', 0, 'ignored'))
@@ -78,39 +78,48 @@ def getRepositoryAuthors(path):
 
             authors[email] = (name, numCommits, date)
 
-    items = list(authors.items())
-    byNumCommits = sorted(items, key=lambda author: author[1][1])[::-1]
+    items = [
+        (email, name, numCommits, date)
+        for email, (name, numCommits, date) in authors.items()]
+    authorsByNumCommits = sorted(items, key=lambda author: author[2])[::-1]
 
-    return byNumCommits
+    return authorsByNumCommits
+
+
+def formatGitAuthors(authorsByNumCommits):
+    lines = []
+
+    longestNameLen = max(len(name) for _, name, _, _ in authorsByNumCommits)
+    longestEmailLen = max(len(email) for email, _, _, _ in authorsByNumCommits)
+    longestCommitsLen = max(
+        len(str(numCommits)) for _, _, numCommits, _ in authorsByNumCommits)
+
+    fmt = u'{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}'
+    fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
+    for email, name, numCommits, latestCommitDate in authorsByNumCommits:
+        datestr = utf8(strftime('%b %d, %Y', latestCommitDate))
+        line = fmt % (u' commit,' if numCommits == 1 else u'commits,')
+        lines.append(line.format(name, email, numCommits, datestr))
+
+    return os.linesep.join(lines)
 
 
 def gitauthors(repoUrl):
-    lines = []
-
     with temporaryDirectory() as repo:
         with open(os.devnull, 'wb') as devnull:
             porcelain.clone(repoUrl, repo, errstream=devnull)
 
-        authors = getRepositoryAuthors(repo)
+        authors = getRepositoryAuthorsByNumberOfCommits(repo)
 
-        longestNameLen = max(len(t[0]) for _, t in authors)
-        longestEmailLen = max(len(email) for email, _ in authors)
-        longestCommitsLen = max(len(str(t[1])) for _, t in authors)
-
-        fmt = u'{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}'
-        fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
-        for email, (name, numCommits, latestCommitDate) in authors:
-            tmp = fmt % (u' commit,' if numCommits == 1 else u'commits,')
-            lines.append(tmp.format(name, email, numCommits, latestCommitDate))
-
-    return os.linesep.join(lines)
+    return authors
 
 
 def main():
     args = docopt(__doc__, version=VERSION)  # Raises SystemExit.
     url = args.get('<repository-URL>')
 
-    out = gitauthors(url)
+    authorsByNumCommits = gitauthors(url)
+    out = formatGitAuthors(authorsByNumCommits)
 
     print(out)
 
