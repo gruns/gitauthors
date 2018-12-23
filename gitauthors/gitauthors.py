@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 #
@@ -11,20 +10,6 @@
 # License: MIT
 #
 
-"""GitAuthors - Get a quick summary of a repo's authors.
-
-Usage:
-  gitauthors <repository-URL>
-  gitauthors -h | --help
-  gitauthors --version
-
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-
-Examples:
-  gitauthors https://github.com/gruns/gitauthors
-"""
 
 import os
 import sys
@@ -34,17 +19,11 @@ from tempfile import mkdtemp
 from time import gmtime, strftime
 from contextlib import contextmanager
 
-from docopt import docopt
 from dulwich import porcelain
 try:
     from icecream import ic
 except ImportError:  # Graceful fallback if IceCream isn't installed.
     ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)
-
-try:  # Local import.
-    from __version__ import __version__ as VERSION
-except ImportError:  # System import.
-    from gitauthors.__version__ import __version__ as VERSION
 
 
 def utf8(s):
@@ -112,17 +91,3 @@ def collateGitAuthors(repoUrl):
         authors = getRepositoryAuthorsByNumberOfCommits(repo)
 
     return authors
-
-
-def main():
-    args = docopt(__doc__, version=VERSION)  # Raises SystemExit.
-    url = args.get('<repository-URL>')
-
-    authorsByNumCommits = collateGitAuthors(url)
-    out = formatGitAuthors(authorsByNumCommits)
-
-    print(out)
-
-
-if __name__ == '__main__':
-    main()
