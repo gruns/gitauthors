@@ -73,8 +73,8 @@ def formatGitAuthors(authorsByNumCommits):
     longestCommitsLen = max(
         len(str(numCommits)) for _, _, numCommits, _ in authorsByNumCommits)
 
-    fmt = u'{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}'
-    fmt = fmt % (longestNameLen, longestEmailLen, longestCommitsLen)
+    t = (longestNameLen, longestEmailLen, longestCommitsLen)
+    fmt = u'{0:%i}  {1:<%i}  {2:>%i} %%s latest on {3}' % t
     for email, name, numCommits, latestCommitDate in authorsByNumCommits:
         datestr = utf8(strftime('%b %d, %Y', latestCommitDate))
         line = fmt % (u' commit,' if numCommits == 1 else u'commits,')
