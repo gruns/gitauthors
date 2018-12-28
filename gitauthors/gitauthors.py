@@ -27,7 +27,7 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 
 def utf8(s):
-    if hasattr(s, 'decode'):  # Python 3.
+    if hasattr(s, 'decode'):  # Python 2.
         return s.decode('utf8')
     return s  # Python 3.
 
