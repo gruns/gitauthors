@@ -53,7 +53,6 @@ setup(
     long_description=(
         'Information and documentation can be found at '
         'https://github.com/gruns/gitauthors.'),
-    scripts=['gitauthors/gitauthors'],
     platforms=['any'],
     packages=find_packages(),
     include_package_data=True,
@@ -73,6 +72,9 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
+    entry_points = {
+        'console_scripts': ['gitauthors=gitauthors.cli:main'],
+    },
     tests_require=[
         'flake8',
     ],
