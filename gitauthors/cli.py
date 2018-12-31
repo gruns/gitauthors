@@ -42,9 +42,9 @@ def main():
     url = args.get('<repository-URL>')
 
     authorsByNumCommits = collateGitAuthors(url)
-    out = formatGitAuthors(authorsByNumCommits)
+    output = formatGitAuthors(authorsByNumCommits)
 
-    print(out)
+    print(output)
 
 
 if __name__ == '__main__':
