@@ -72,7 +72,7 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
-    entry_points = {
+    entry_points={
         'console_scripts': ['gitauthors=gitauthors.cli:main'],
     },
     tests_require=[
