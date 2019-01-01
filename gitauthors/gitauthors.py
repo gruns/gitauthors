@@ -84,10 +84,10 @@ def formatGitAuthors(authorsByNumCommits):
 
 
 def collateGitAuthors(repoUrl):
-    with temporaryDirectory() as repo:
+    with temporaryDirectory() as repoPath:
         with open(os.devnull, 'wb') as devnull:
-            porcelain.clone(repoUrl, repo, errstream=devnull)
+            porcelain.clone(repoUrl, repoPath, errstream=devnull)
 
-        authors = getRepositoryAuthorsByNumberOfCommits(repo)
+        authors = getRepositoryAuthorsByNumberOfCommits(repoPath)
 
     return authors
