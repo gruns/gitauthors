@@ -62,6 +62,7 @@ def getRepositoryAuthorsByNumberOfCommits(path):
         for email, (name, numCommits, date) in authors.items()]
     authorsByNumCommits = sorted(items, key=lambda author: author[2])[::-1]
 
+    # List of (email, name, numCommits, latestCommitDate) tuples.
     return authorsByNumCommits
 
 
