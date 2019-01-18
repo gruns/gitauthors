@@ -16,3 +16,4 @@ __license__ = 'MIT'
 __author__ = 'Ansgar Grunseid'
 __contact__ = 'grunseid@gmail.com'
 __url__ = 'https://github.com/gruns/gitauthors'
+__description__ = "Get a quick summary of a repository's authors."
