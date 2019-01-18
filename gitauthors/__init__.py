@@ -11,4 +11,4 @@
 #
 
 
-from gitauthors import collateGitAuthors, formatGitAuthors
+from gitauthors.api import collateGitAuthors, formatGitAuthors
