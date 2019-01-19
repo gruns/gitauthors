@@ -30,11 +30,8 @@ Examples:
 
 from docopt import docopt
 
-from gitauthors import collateGitAuthors, formatGitAuthors
-try:  # Local import.
-    from __version__ import __version__ as VERSION
-except ImportError:  # System import.
-    from gitauthors.__version__ import __version__ as VERSION
+from gitauthors import (
+    collateGitAuthors, formatGitAuthors, __version__ as VERSION)
 
 
 def main():

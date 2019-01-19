@@ -17,12 +17,12 @@ import unittest
 from os.path import join as pjoin
 
 
+import gitauthors
 from dulwich.repo import Repo
 try:
     from icecream import ic
 except ImportError:  # Graceful fallback if IceCream isn't installed.
     ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)
-from gitauthors.gitauthors import getRepositoryAuthorsByNumberOfCommits
 
 
 class TestGitAuthors(unittest.TestCase):
@@ -43,7 +43,7 @@ class TestGitAuthors(unittest.TestCase):
         shutil.rmtree(self.dir)
 
     def test_api(self):
-        authors = getRepositoryAuthorsByNumberOfCommits(self.dir)
+        authors = gitauthors.api.getRepositoryAuthorsByNumberOfCommits(self.dir)
         assert len(authors) == 2
 
         email, name, numCommits, _ = authors[0]
