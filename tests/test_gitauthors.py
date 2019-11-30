@@ -57,4 +57,4 @@ class TestGitAuthors(unittest.TestCase):
             f.write('lolsup')
 
         self.repo.stage([fname])
-        self.repo.do_commit(fname, committer=author)
+        self.repo.do_commit(fname, committer=author, author=author)
