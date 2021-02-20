@@ -20,5 +20,3 @@ from gitauthors.__version__ import (
     __contact__,
     __url__,
     __description__)
-    
-
