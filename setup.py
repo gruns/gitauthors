@@ -17,7 +17,14 @@ from os.path import dirname, join as pjoin
 from setuptools import setup, find_packages, Command
 from setuptools.command.test import test as TestCommand
 
-from gitauthors.__version__ import __version__ as VERSION
+
+MYNAME = 'gitauthors'
+
+
+meta = {}
+with open(pjoin(MYNAME, '__version__.py')) as f:
+    exec(f.read(), meta)
+
 
 
 class Publish(Command):
@@ -33,26 +40,24 @@ class Publish(Command):
     def run(self):
         os.system('python setup.py sdist bdist_wheel')
 
-        sdist = 'dist/gitauthors-%s.tar.gz' % VERSION
-        wheel = 'dist/gitauthors-%s-py2.py3-none-any.whl' % VERSION
+        sdist = 'dist/%s-%s.tar.gz' % (MYNAME, meta['__version__'])
+        wheel = (
+            'dist/%s-%s-py2.py3-none-any.whl' % (MYNAME, meta['__version__']))
         rc = os.system('twine upload "%s" "%s"' % (sdist, wheel))
 
         sys.exit(rc)
 
 
 setup(
-    name='gitauthors',
-    license='MIT',
-    version=VERSION,
-    author='Ansgar Grunseid',
-    author_email='grunseid@gmail.com',
-    url='https://github.com/gruns/gitauthors',
-    description=(
-        'Inspect variables, expressions, and program execution with a '
-        'single, simple function call.'),
+    name=meta['__title__'],
+    license=meta['__license__'],
+    version=meta['__version__'],
+    author=meta['__author__'],
+    author_email=meta['__contact__'],
+    url=meta['__url__'],
+    description=meta['__description__'],
     long_description=(
-        'Information and documentation can be found at '
-        'https://github.com/gruns/gitauthors.'),
+        'Information and documentation can be found at ' + meta['__url__']),
     platforms=['any'],
     packages=find_packages(),
     include_package_data=True,
